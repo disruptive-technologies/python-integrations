@@ -6,7 +6,7 @@ import disruptive
 import dtintegrations.provider as dtproviders
 
 
-def validate_generic(token: str, body: bytes, secret: str):
+def validate_generic(headers: dict, body: bytes, secret: str):
     # Do some mild secret sanitization, ensuring populated string.
     if isinstance(secret, str):
         if len(secret) == 0:
@@ -18,9 +18,24 @@ def validate_generic(token: str, body: bytes, secret: str):
             f'Got secret of type <{type(secret).__name__}>. Expected <str>.'
         )
 
+    # Isolate the token in request headers.
+    token = None
+    for key, value in headers:
+        if key.lower() == 'x-dt-signature':
+            token = value
+            break
+    if token is None:
+        raise disruptive.errors.ConfigurationError(
+            'Missing header X-Dt-Signature.'
+        )
+
     # Decode the token using the signature secret.
     try:
-        payload = jwt.decode(token, secret, algorithms=['HS256'])
+        payload = jwt.decode(
+            headers['x-dt-signature'],
+            secret,
+            algorithms=['HS256'],
+        )
     except jwt.exceptions.InvalidSignatureError:
         raise disruptive.errors.ConfigurationError(
             'Invalid secret.'
@@ -49,8 +64,8 @@ def validate(request, provider: str, secret: str):
     p = dtproviders._get_provider(provider)
 
     # Extract the header and body from request.
-    header_token = p.get_header(request, 'x-dt-signature')
+    headers = p.get_headers(request)
     body = p.get_body(request)
 
     # Use a more generic function for the validation process.
-    return validate_generic(header_token, body, secret)
+    return validate_generic(headers, body, secret)

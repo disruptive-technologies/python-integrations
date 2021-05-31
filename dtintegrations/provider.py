@@ -12,18 +12,12 @@ class Flask(Request):
     name = 'flask'
 
     @staticmethod
-    def get_header(request, name: str):
-        # Iterate headers in request.
-        for key, value in request.headers:
-            # If the header name matches regardless of casing, return value.
-            if key.lower() == name.lower():
-                return request.headers[key]
-
-        # If header does not exist, raise an exception.
-        raise KeyError(f'Header {name} does not exist.')
+    def get_headers(request):
+        # Flask uses case-insensitive headers that needs no modification.
+        return request.headers
 
     def get_body(request):
-        # Flask comes with a convenient function for getting the body.
+        # Flask has an attribute for body bytes.
         return request.data
 
 
@@ -32,18 +26,12 @@ class Gcloud(Request):
     name = 'gcloud'
 
     @staticmethod
-    def get_header(request, name: str):
-        # Iterate headers in request.
-        for key, value in request.headers:
-            # If the header name matches regardless of casing, return value.
-            if key.lower() == name.lower():
-                return request.headers[key]
-
-        # If header does not exist, raise an exception.
-        raise KeyError(f'Header {name} does not exist.')
+    def get_headers(request):
+        # gcloud uses case-insensitive headers that needs no modification.
+        return request.headers
 
     def get_body(request):
-        # Flask comes with a convenient function for getting the body.
+        # gcloud has a convenience function for getting body bytes.
         return request.get_data()
 
 
