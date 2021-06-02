@@ -1,7 +1,7 @@
 import jwt
 import ast
 import hashlib
-import disruptive
+import disruptive  # type: ignore
 
 import dtintegrations.provider as dtproviders
 
@@ -61,11 +61,11 @@ def validate_generic(headers: dict, body: bytes, secret: str):
 
 def validate(request, provider: str, secret: str):
     # Validate known provider name.
-    p = dtproviders._get_provider(provider)
+    p = dtproviders._get_provider(provider)(request)
 
     # Extract the header and body from request.
-    headers = p.get_headers(request)
-    body = p.get_body(request)
+    headers = p.get_headers()
+    body = p.get_body()
 
     # Use a more generic function for the validation process.
     return validate_generic(headers, body, secret)
