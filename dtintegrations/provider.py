@@ -2,6 +2,8 @@
 
 class Request(object):
 
+    name: str = ''
+
     def __init__(self, request):
         # Set parameter attributes.
         self.request = request
@@ -9,64 +11,76 @@ class Request(object):
 
 class Flask(Request):
 
-    name = 'flask'
+    name: str = 'flask'
 
-    @staticmethod
-    def get_headers(request):
+    def __init__(self, request):
+        # Inherit Request parent class.
+        super().__init__(request)
+
+    def get_headers(self):
         # Flask uses some custom header type. Convert to dict.
         header_dict: dict = dict()
-        for key, value in request.headers:
+        for key, value in self.request.headers:
             header_dict[key] = value
         return header_dict
 
-    def get_body(request):
+    def get_body(self):
         # Flask has an attribute for body bytes.
-        return request.data
+        return self.request.data
 
 
 class Gcloud(Request):
 
-    name = 'gcloud'
+    name: str = 'gcloud'
 
-    @staticmethod
-    def get_headers(request):
+    def __init__(self, request):
+        # Inherit Request parent class.
+        super().__init__(request)
+
+    def get_headers(self):
         # gcloud uses some custom header type. Convert to dict.
         header_dict: dict = dict()
-        for key, value in request.headers:
+        for key, value in self.request.headers:
             header_dict[key] = value
         return header_dict
 
-    def get_body(request):
+    def get_body(self):
         # gcloud has a convenience function for getting body bytes.
-        return request.get_data()
+        return self.request.get_data()
 
 
 class Lambda(Request):
 
-    name = 'lambda'
+    name: str = 'lambda'
 
-    @staticmethod
-    def get_headers(request):
+    def __init__(self, request):
+        # Inherit Request parent class.
+        super().__init__(request)
+
+    def get_headers(self):
         # Lambda headers can simply be returned.
-        return request['headers']
+        return self.request['headers']
 
-    def get_body(request):
+    def get_body(self):
         # Lambda body is a string, to it must be encoded.
-        return request['body'].encode('utf-8')
+        return self.request['body'].encode('utf-8')
 
 
 class Azure(Request):
 
-    name = 'azure'
+    name: str = 'azure'
 
-    @staticmethod
-    def get_headers(request):
+    def __init__(self, request):
+        # Inherit Request parent class.
+        super().__init__(request)
+
+    def get_headers(self):
         # Azure headers can simply be returned.
-        return request.headers
+        return self.request.headers
 
-    def get_body(request):
+    def get_body(self):
         # Azure has a convenience function for getting body bytes.
-        return request.get_body()
+        return self.request.get_body()
 
 
 FLASK = Flask.name
