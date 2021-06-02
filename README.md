@@ -13,7 +13,6 @@ or from source:
 ```sh
 pip install .
 ```
-```
 
 ### Requirements
 
