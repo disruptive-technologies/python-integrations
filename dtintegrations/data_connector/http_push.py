@@ -20,9 +20,9 @@ def validate_generic(headers: dict, body: bytes, secret: str):
 
     # Isolate the token in request headers.
     token = None
-    for key, value in headers:
+    for key in headers:
         if key.lower() == 'x-dt-signature':
-            token = value
+            token = headers[key]
             break
     if token is None:
         raise disruptive.errors.ConfigurationError(
@@ -32,7 +32,7 @@ def validate_generic(headers: dict, body: bytes, secret: str):
     # Decode the token using the signature secret.
     try:
         payload = jwt.decode(
-            headers['x-dt-signature'],
+            token,
             secret,
             algorithms=['HS256'],
         )
