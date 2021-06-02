@@ -55,15 +55,31 @@ class Lambda(Request):
         return request['body'].encode('utf-8')
 
 
+class Azure(Request):
+
+    name = 'azure'
+
+    @staticmethod
+    def get_headers(request):
+        # Azure headers can simply be returned.
+        return request.headers
+
+    def get_body(request):
+        # Azure has a convenience function for getting body bytes.
+        return request.get_body()
+
+
 FLASK = Flask.name
 GCLOUD = Gcloud.name
 LAMBDA = Lambda.name
+AZURE = Azure.name
 
 
 PROVIDERS = [
     Flask,
     Gcloud,
     Lambda,
+    Azure,
 ]
 
 
