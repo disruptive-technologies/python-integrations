@@ -1,5 +1,7 @@
 # Disruptive Technologies Python Integrations
 
+![build](https://github.com/disruptive-technologies/python-integrations/actions/workflows/build.yml/badge.svg)
+
 ## Installation
 
 The package can be installed through pip:
