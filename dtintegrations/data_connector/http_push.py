@@ -40,6 +40,10 @@ def validate_generic(headers: dict, body: bytes, secret: str):
         raise disruptive.errors.ConfigurationError(
             'Invalid secret.'
         )
+    except jwt.exceptions.ExpiredSignatureError:
+        raise disruptive.errors.ConfigurationError(
+            'Signature has expired.'
+        )
 
     # Calculate the body checksum.
     m = hashlib.sha1()
