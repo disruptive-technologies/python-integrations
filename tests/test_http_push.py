@@ -1,5 +1,5 @@
 import pytest
-import disruptive
+import disruptive  # type: ignore
 
 from dtintegrations import data_connector, provider
 import tests.events as events

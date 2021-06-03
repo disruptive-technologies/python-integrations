@@ -10,7 +10,7 @@ class FlaskRequestFormat():
     def __init__(self, event: events.Event):
 
         self.headers = self._unpack_headers(event.headers)
-        self.data = event.body_bytes.encode('utf-8')
+        self.data = event.body_str.encode('utf-8')
 
     def _unpack_headers(self, headers):
         header_list = []
@@ -28,7 +28,7 @@ class GcloudRequestFormat():
     def __init__(self, event: events.Event):
 
         self.headers = self._unpack_headers(event.headers)
-        self.body_bytes = event.body_bytes.encode('utf-8')
+        self.body_bytes = event.body_str.encode('utf-8')
 
     def _unpack_headers(self, headers):
         header_list = []
@@ -48,7 +48,7 @@ def lambda_request_format(event: events.Event):
 
     return {
         'headers': event.headers,
-        'body': event.body_bytes,
+        'body': event.body_str,
     }
 
 
@@ -61,7 +61,7 @@ class AzureRequestFormat():
     def __init__(self, event: events.Event):
 
         self.headers = event.headers
-        self.body_bytes = event.body_bytes.encode('utf-8')
+        self.body_bytes = event.body_str.encode('utf-8')
 
     def get_body(self):
         return self.body_bytes
