@@ -1,7 +1,7 @@
 import tests.events as events
 
 
-class GcloudRequestMock():
+class GcloudRequestEmulator():
 
     def __init__(self, event: events.Event):
 
@@ -16,3 +16,19 @@ class GcloudRequestMock():
 
     def get_data(self):
         return self.body_bytes
+
+
+class HttpPushMock():
+
+    def __init__(self, mocker):
+        self._mocker = mocker
+
+        self.event = None
+
+        self.jwt_decode_patcher = self._mocker.patch(
+            'jwt.decode',
+            side_effect=self._patched_jwt_decode,
+        )
+
+    def _patched_jwt_decode(self, token: str, secret: str, algorithms: list):
+        return self.event.payload
