@@ -3,7 +3,7 @@ import ast
 import hashlib
 import disruptive  # type: ignore
 
-import dtintegrations.provider as dtproviders
+from dtintegrations import request as dtrequest
 
 
 def validate_generic(headers: dict, body: bytes, secret: str):
@@ -59,13 +59,9 @@ def validate_generic(headers: dict, body: bytes, secret: str):
     return disruptive.events.Event(body_dict['event'])
 
 
-def validate(request, provider: str, secret: str):
-    # Validate known provider name.
-    p = dtproviders._get_provider(provider)(request)
-
-    # Extract the header and body from request.
-    headers = p.get_headers()
-    body = p.get_body()
+def validate(request, provider_name: str, secret: str):
+    # Create a Request instance of the provider used for MISO.
+    r = dtrequest.Request(request, provider_name)
 
     # Use a more generic function for the validation process.
-    return validate_generic(headers, body, secret)
+    return validate_generic(r.headers, r.body_bytes, secret)
