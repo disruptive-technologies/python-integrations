@@ -2,9 +2,9 @@
 import pytest
 
 # Project imports.
-from tests.framework import HttpPushMock
+from tests.framework import DecodeMock
 
 
 @pytest.fixture()
-def http_push_mock(mocker):
-    return HttpPushMock(mocker)
+def decode_mock(mocker):
+    return DecodeMock(mocker)

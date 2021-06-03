@@ -1,14 +1,36 @@
 import tests.events as events
 
 
-class GcloudRequestEmulator():
+class FlaskRequestFormat():
+    """
+    Change event data to replicate Flask request format.
+
+    """
 
     def __init__(self, event: events.Event):
 
-        self.headers = self.unpack_headers(event.headers)
+        self.headers = self._unpack_headers(event.headers)
+        self.data = event.body_bytes.encode('utf-8')
+
+    def _unpack_headers(self, headers):
+        header_list = []
+        for key in headers:
+            header_list.append((key, headers[key]))
+        return header_list
+
+
+class GcloudRequestFormat():
+    """
+    Change event data to replicate Gcloud request format.
+
+    """
+
+    def __init__(self, event: events.Event):
+
+        self.headers = self._unpack_headers(event.headers)
         self.body_bytes = event.body_bytes.encode('utf-8')
 
-    def unpack_headers(self, headers):
+    def _unpack_headers(self, headers):
         header_list = []
         for key in headers:
             header_list.append((key, headers[key]))
@@ -18,7 +40,34 @@ class GcloudRequestEmulator():
         return self.body_bytes
 
 
-class HttpPushMock():
+def lambda_request_format(event: events.Event):
+    """
+    Change event data to replicate Lambda request format.
+
+    """
+
+    return {
+        'headers': event.headers,
+        'body': event.body_bytes,
+    }
+
+
+class AzureRequestFormat():
+    """
+    Change event data to replicate Azure request format.
+
+    """
+
+    def __init__(self, event: events.Event):
+
+        self.headers = event.headers
+        self.body_bytes = event.body_bytes.encode('utf-8')
+
+    def get_body(self):
+        return self.body_bytes
+
+
+class DecodeMock():
 
     def __init__(self, mocker):
         self._mocker = mocker
