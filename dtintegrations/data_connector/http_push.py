@@ -2,11 +2,33 @@ import jwt
 import ast
 import hashlib
 import disruptive  # type: ignore
+from disruptive.events import Event  # type: ignore
 
 from dtintegrations import request as dtrequest
 
 
-def validate_generic(headers: dict, body: bytes, secret: str):
+def decode(headers: dict, body: bytes, secret: str) -> Event:
+    """
+    Validates the origin and content of an incoming Data Connector
+    request of a generic header- and bytes format.
+
+    Parameters
+    ----------
+    headers : dict[str, str]
+        Headers key- value pairs in request. For multi-header
+        format, the value should be a comma-separated string.
+    body : bytes
+        Request body bytes.
+    secret : str
+        The secret to sign the request at source.
+
+    Returns
+    -------
+    event : Event
+        An object representing the received event.
+
+    """
+
     # Do some mild secret sanitization, ensuring populated string.
     if isinstance(secret, str):
         if len(secret) == 0:
@@ -63,9 +85,30 @@ def validate_generic(headers: dict, body: bytes, secret: str):
     return disruptive.events.Event(body_dict['event'])
 
 
-def validate(request, provider_name: str, secret: str):
+def decode_request(request, provider: str, secret: str) -> Event:
+    """
+    Validates the origin and content of an incoming Data Connector
+    request given a specified provider, then returns the decoded event.
+
+    Parameters
+    ----------
+    request : Any
+        Unmodified incoming request format of the spcified provider.
+    provider : {"flask", "gcloud", "lambda", "azure"}, str
+        Name of the :ref:`provider <integrations_provider>`
+        used to receive the request.
+    secret : str
+        The secret to sign the request at source.
+
+    Returns
+    -------
+    event : Event
+        An object representing the received event.
+
+    """
+
     # Create a Request instance of the provider used for MISO.
-    r = dtrequest.Request(request, provider_name)
+    r = dtrequest.Request(request, provider)
 
     # Use a more generic function for the validation process.
-    return validate_generic(r.headers, r.body_bytes, secret)
+    return decode(r.headers, r.body_bytes, secret)

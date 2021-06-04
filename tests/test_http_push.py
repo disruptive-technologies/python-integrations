@@ -9,193 +9,193 @@ from tests import framework
 class TestHttpPush():
 
     # ------------------------- Flask -------------------------
-    def test_validate_flask(self, decode_mock):
+    def test_decode_flask(self, decode_mock):
         # Choose an event to receive.
         test_event = events.touch
 
         # Update the mock event attribute.
         decode_mock.event = test_event
 
-        # Attempt to validate the request.
-        event = data_connector.http_push.validate(
+        # Attempt to decode the request.
+        event = data_connector.http_push.decode_request(
             request=framework.FlaskRequestFormat(test_event),
-            provider_name=provider.FLASK,
+            provider=provider.FLASK,
             secret='test-secret',
         )
 
         assert isinstance(event, disruptive.events.Event)
         assert event.event_id == test_event.body['event']['eventId']
 
-    def test_validate_flask_name_casing(self, decode_mock):
+    def test_decode_flask_name_casing(self, decode_mock):
         # Choose an event to receive.
         test_event = events.touch
 
         # Update the mock event attribute.
         decode_mock.event = test_event
 
-        # Attempt to validate the request.
-        data_connector.http_push.validate(
+        # Attempt to decode the request.
+        data_connector.http_push.decode_request(
             request=framework.FlaskRequestFormat(test_event),
-            provider_name='fLAsk',
+            provider='fLAsk',
             secret='test-secret',
         )
 
-    def test_validate_flask_bad_secret(self):
+    def test_decode_flask_bad_secret(self):
         with pytest.raises(disruptive.errors.ConfigurationError):
-            data_connector.http_push.validate(
+            data_connector.http_push.decode_request(
                 request=framework.FlaskRequestFormat(events.touch),
-                provider_name=provider.FLASK,
+                provider=provider.FLASK,
                 secret='bad-secret',
             )
 
-    def test_validate_flask_bad_name(self):
+    def test_decode_flask_bad_name(self):
         with pytest.raises(ValueError):
-            data_connector.http_push.validate(
+            data_connector.http_push.decode_request(
                 request=framework.FlaskRequestFormat(events.touch),
-                provider_name='Xflask',
+                provider='Xflask',
                 secret='test-secret',
             )
 
     # ------------------------- Gcloud -------------------------
-    def test_validate_gcloud(self, decode_mock):
+    def test_decode_gcloud(self, decode_mock):
         # Choose an event to receive.
         test_event = events.touch
 
         # Update the mock event attribute.
         decode_mock.event = test_event
 
-        # Attempt to validate the request.
-        event = data_connector.http_push.validate(
+        # Attempt to decode the request.
+        event = data_connector.http_push.decode_request(
             request=framework.GcloudRequestFormat(test_event),
-            provider_name=provider.GCLOUD,
+            provider=provider.GCLOUD,
             secret='test-secret',
         )
 
         assert isinstance(event, disruptive.events.Event)
         assert event.event_id == test_event.body['event']['eventId']
 
-    def test_validate_gcloud_name_casing(self, decode_mock):
+    def test_decode_gcloud_name_casing(self, decode_mock):
         # Choose an event to receive.
         test_event = events.touch
 
         # Update the mock event attribute.
         decode_mock.event = test_event
 
-        # Attempt to validate the request.
-        data_connector.http_push.validate(
+        # Attempt to decode the request.
+        data_connector.http_push.decode_request(
             request=framework.GcloudRequestFormat(test_event),
-            provider_name='GcLouD',
+            provider='GcLouD',
             secret='test-secret',
         )
 
-    def test_validate_gcloud_bad_secret(self):
+    def test_decode_gcloud_bad_secret(self):
         with pytest.raises(disruptive.errors.ConfigurationError):
-            data_connector.http_push.validate(
+            data_connector.http_push.decode_request(
                 request=framework.GcloudRequestFormat(events.touch),
-                provider_name=provider.GCLOUD,
+                provider=provider.GCLOUD,
                 secret='bad-secret',
             )
 
-    def test_validate_gcloud_bad_name(self):
+    def test_decode_gcloud_bad_name(self):
         with pytest.raises(ValueError):
-            data_connector.http_push.validate(
+            data_connector.http_push.decode_request(
                 request=framework.GcloudRequestFormat(events.touch),
-                provider_name='Xgcloud',
+                provider='Xgcloud',
                 secret='test-secret',
             )
 
     # ------------------------- Lambda -------------------------
-    def test_validate_lambda(self, decode_mock):
+    def test_decode_lambda(self, decode_mock):
         # Choose an event to receive.
         test_event = events.touch
 
         # Update the mock event attribute.
         decode_mock.event = test_event
 
-        # Attempt to validate the request.
-        event = data_connector.http_push.validate(
+        # Attempt to decode the request.
+        event = data_connector.http_push.decode_request(
             request=framework.lambda_request_format(test_event),
-            provider_name=provider.LAMBDA,
+            provider=provider.LAMBDA,
             secret='test-secret',
         )
 
         assert isinstance(event, disruptive.events.Event)
         assert event.event_id == test_event.body['event']['eventId']
 
-    def test_validate_lambda_name_casing(self, decode_mock):
+    def test_decode_lambda_name_casing(self, decode_mock):
         # Choose an event to receive.
         test_event = events.touch
 
         # Update the mock event attribute.
         decode_mock.event = test_event
 
-        # Attempt to validate the request.
-        data_connector.http_push.validate(
+        # Attempt to decode the request.
+        data_connector.http_push.decode_request(
             request=framework.lambda_request_format(test_event),
-            provider_name='lAMbdA',
+            provider='lAMbdA',
             secret='test-secret',
         )
 
-    def test_validate_lambda_bad_secret(self):
+    def test_decode_lambda_bad_secret(self):
         with pytest.raises(disruptive.errors.ConfigurationError):
-            data_connector.http_push.validate(
+            data_connector.http_push.decode_request(
                 request=framework.lambda_request_format(events.touch),
-                provider_name=provider.LAMBDA,
+                provider=provider.LAMBDA,
                 secret='bad-secret',
             )
 
-    def test_validate_lambda_bad_name(self):
+    def test_decode_lambda_bad_name(self):
         with pytest.raises(ValueError):
-            data_connector.http_push.validate(
+            data_connector.http_push.decode_request(
                 request=framework.lambda_request_format(events.touch),
-                provider_name='Xlambda',
+                provider='Xlambda',
                 secret='test-secret',
             )
 
     # ------------------------- Azure -------------------------
-    def test_validate_azure(self, decode_mock):
+    def test_decode_azure(self, decode_mock):
         # Choose an event to receive.
         test_event = events.touch
 
         # Update the mock event attribute.
         decode_mock.event = test_event
 
-        # Attempt to validate the request.
-        event = data_connector.http_push.validate(
+        # Attempt to decode the request.
+        event = data_connector.http_push.decode_request(
             request=framework.AzureRequestFormat(test_event),
-            provider_name=provider.AZURE,
+            provider=provider.AZURE,
             secret='test-secret',
         )
 
         assert isinstance(event, disruptive.events.Event)
         assert event.event_id == test_event.body['event']['eventId']
 
-    def test_validate_azure_name_casing(self, decode_mock):
+    def test_decode_azure_name_casing(self, decode_mock):
         # Choose an event to receive.
         test_event = events.touch
 
         # Update the mock event attribute.
         decode_mock.event = test_event
 
-        # Attempt to validate the request.
-        data_connector.http_push.validate(
+        # Attempt to decode the request.
+        data_connector.http_push.decode_request(
             request=framework.AzureRequestFormat(test_event),
-            provider_name='AzuRE',
+            provider='AzuRE',
             secret='test-secret',
         )
 
-    def test_validate_azure_bad_secret(self):
+    def test_decode_azure_bad_secret(self):
         with pytest.raises(disruptive.errors.ConfigurationError):
-            data_connector.http_push.validate(
+            data_connector.http_push.decode_request(
                 request=framework.AzureRequestFormat(events.touch),
-                provider_name=provider.AZURE,
+                provider=provider.AZURE,
                 secret='bad-secret',
             )
 
-    def test_validate_azure_bad_name(self):
+    def test_decode_azure_bad_name(self):
         with pytest.raises(ValueError):
-            data_connector.http_push.validate(
+            data_connector.http_push.decode_request(
                 request=framework.AzureRequestFormat(events.touch),
-                provider_name='Xazure',
+                provider='Xazure',
                 secret='test-secret',
             )
