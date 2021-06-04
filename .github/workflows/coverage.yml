@@ -1,0 +1,45 @@
+# This is a basic workflow to help you get started with Actions
+
+name: coverage
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push events but only for the main branch
+  push:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+
+    - name: Install dependencies
+      run: |
+          pip install pytest pytest-mock pytest-cov
+          pip install -e .
+          
+    # Install coverage dependencies and generate report.
+    - name: Generate coverage report
+      run: |
+          pytest --cov=disruptive --cov-report=xml tests/
+
+    # Using the generated report, upload to codecov.
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        files: ./coverage.xml
+        flags: unittests
+        fail_ci_if_error: true
+        path_to_write_report: ./codecov_report.txt
