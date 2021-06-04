@@ -1,6 +1,7 @@
 # Disruptive Technologies Python Integrations
 
 ![build](https://github.com/disruptive-technologies/python-integrations/actions/workflows/build.yml/badge.svg)
+[![codecov](https://codecov.io/gh/disruptive-technologies/python-integrations/branch/main/graph/badge.svg?token=KX0W7H6ALS)](https://codecov.io/gh/disruptive-technologies/python-integrations)
 
 ## Installation
 
