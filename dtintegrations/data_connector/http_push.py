@@ -9,8 +9,8 @@ from dtintegrations import request as dtrequest
 
 def decode(headers: dict, body: bytes, secret: str) -> Event:
     """
-    Validates the origin and content of an incoming Data Connector
-    request of a generic header- and bytes format.
+    Decodes the incoming event, first validating the source- and origin
+    using a signature secret and the request header- and body.
 
     Parameters
     ----------
@@ -87,8 +87,8 @@ def decode(headers: dict, body: bytes, secret: str) -> Event:
 
 def decode_request(request, provider: str, secret: str) -> Event:
     """
-    Validates the origin and content of an incoming Data Connector
-    request given a specified provider, then returns the decoded event.
+    Decodes the incoming event, first validating the source- and origin
+    using a signature secret and the provider-specific request.
 
     Parameters
     ----------
