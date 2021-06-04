@@ -33,7 +33,7 @@ jobs:
     # Install coverage dependencies and generate report.
     - name: Generate coverage report
       run: |
-          pytest --cov=disruptive --cov-report=xml tests/
+          pytest --cov=dtintegrations --cov-report=xml tests/
 
     # Using the generated report, upload to codecov.
     - name: Upload coverage to Codecov
