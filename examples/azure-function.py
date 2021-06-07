@@ -11,7 +11,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     # Use the provider-specific validation function.
     event = data_connector.http_push.decode_request(
         req,
-        provider_name=provider.AZURE,
+        provider=provider.AZURE,
         secret=DT_SIGNATURE_SECRET,
     )
 

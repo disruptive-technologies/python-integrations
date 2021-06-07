@@ -10,7 +10,7 @@ def lambda_handler(event, context):
     # Use the provider-specific validation function.
     e = data_connector.http_push.decode_request(
         event,
-        provider_name=provider.LAMBDA,
+        provider=provider.LAMBDA,
         secret=DT_SIGNATURE_SECRET,
     )
 

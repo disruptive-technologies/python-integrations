@@ -11,7 +11,7 @@ def print_request_contents():
     # Use the provider-specific validation function.
     event = data_connector.http_push.decode_request(
         request,
-        provider_name=provider.FLASK,
+        provider=provider.FLASK,
         secret=os.getenv('DT_SIGNATURE_SECRET'),
     )
 
