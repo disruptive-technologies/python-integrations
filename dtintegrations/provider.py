@@ -4,11 +4,13 @@ from typing import Any
 
 
 FLASK = 'flask'
+DJANGO = 'django'
 GCLOUD = 'gcloud'
 LAMBDA = 'lambda'
 AZURE = 'azure'
 PROVIDERS = [
     FLASK,
+    DJANGO,
     GCLOUD,
     LAMBDA,
     AZURE,
@@ -31,6 +33,23 @@ class Flask():
     def get_body_bytes(request: Any) -> bytes:
         # Flask has an attribute for body bytes.
         data: bytes = request.data
+        return data
+
+
+class Django():
+
+    name: str = DJANGO
+
+    @staticmethod
+    def get_headers_dict(request: Any) -> dict:
+        # Django headers can simply be returned.
+        headers: dict = request.headers
+        return headers
+
+    @staticmethod
+    def get_body_bytes(request: Any) -> bytes:
+        # Django has an attribute for body bytes.
+        data: bytes = request.body
         return data
 
 
