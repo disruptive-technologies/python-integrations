@@ -4,7 +4,7 @@ from dtintegrations import data_connector, provider
 DT_SIGNATURE_SECRET = os.getenv('DT_SIGNATURE_SECRET')
 
 
-def dataconnector_endpoint(request):
+def endpoint(request):
     # Validate and decode the incoming request.
     event = data_connector.http_push.decode_request(
         request,
