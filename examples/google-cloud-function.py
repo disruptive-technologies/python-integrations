@@ -7,7 +7,7 @@ DT_SIGNATURE_SECRET = os.getenv('DT_SIGNATURE_SECRET')
 
 def endpoint(request):
     # Use the provider-specific validation function.
-    event = data_connector.http_push.validate(
+    event = data_connector.http_push.decode_request(
         request,
         provider_name=provider.GCLOUD,
         secret=DT_SIGNATURE_SECRET,
