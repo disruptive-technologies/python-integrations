@@ -1,13 +1,15 @@
 import jwt
 import ast
 import hashlib
+from typing import Any
+
 import disruptive  # type: ignore
 from disruptive.events import Event  # type: ignore
 
 from dtintegrations import request as dtrequest
 
 
-def decode(headers: dict, body: bytes, secret: str) -> Event:
+def decode(headers: dict, body: bytes, secret: str) -> Any:
     """
     Decodes the incoming event, first validating the source- and origin
     using a signature secret and the request header- and body.
@@ -85,7 +87,7 @@ def decode(headers: dict, body: bytes, secret: str) -> Event:
     return disruptive.events.Event(body_dict['event'])
 
 
-def decode_request(request, provider: str, secret: str) -> Event:
+def decode_request(request: Any, provider: str, secret: str) -> Any:
     """
     Decodes the incoming event, first validating the source- and origin
     using a signature secret and the provider-specific request.

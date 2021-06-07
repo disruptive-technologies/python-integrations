@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+from typing import Any
 
 
 FLASK = 'flask'
@@ -17,7 +20,7 @@ class Flask():
     name: str = FLASK
 
     @staticmethod
-    def get_headers_dict(request):
+    def get_headers_dict(request: Any) -> dict:
         # Flask uses some custom header type. Convert to dict.
         header_dict: dict = dict()
         for key, value in request.headers:
@@ -25,9 +28,10 @@ class Flask():
         return header_dict
 
     @staticmethod
-    def get_body_bytes(request):
+    def get_body_bytes(request: Any) -> bytes:
         # Flask has an attribute for body bytes.
-        return request.data
+        data: bytes = request.data
+        return data
 
 
 class Gcloud():
@@ -35,7 +39,7 @@ class Gcloud():
     name: str = GCLOUD
 
     @staticmethod
-    def get_headers_dict(request):
+    def get_headers_dict(request: Any) -> dict:
         # gcloud uses some custom header type. Convert to dict.
         header_dict: dict = dict()
         for key, value in request.headers:
@@ -43,9 +47,10 @@ class Gcloud():
         return header_dict
 
     @staticmethod
-    def get_body_bytes(request):
+    def get_body_bytes(request: Any) -> bytes:
         # gcloud has a convenience function for getting body bytes.
-        return request.get_data()
+        data: bytes = request.get_data()
+        return data
 
 
 class Lambda():
@@ -53,14 +58,16 @@ class Lambda():
     name: str = LAMBDA
 
     @staticmethod
-    def get_headers_dict(request):
+    def get_headers_dict(request: Any) -> dict:
         # Lambda headers can simply be returned.
-        return request['headers']
+        headers: dict = request['headers']
+        return headers
 
     @staticmethod
-    def get_body_bytes(request):
+    def get_body_bytes(request: Any) -> bytes:
         # Lambda body is a string, to it must be encoded.
-        return request['body'].encode('utf-8')
+        data: bytes = request['body'].encode('utf-8')
+        return data
 
 
 class Azure():
@@ -68,11 +75,13 @@ class Azure():
     name: str = AZURE
 
     @staticmethod
-    def get_headers_dict(request):
+    def get_headers_dict(request: Any) -> dict:
         # Azure headers can simply be returned.
-        return request.headers
+        headers: dict = request.headers
+        return headers
 
     @staticmethod
-    def get_body_bytes(request):
+    def get_body_bytes(request: Any) -> bytes:
         # Azure has a convenience function for getting body bytes.
-        return request.get_body()
+        data: bytes = request.get_body()
+        return data

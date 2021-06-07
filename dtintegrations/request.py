@@ -1,12 +1,16 @@
+from __future__ import annotations
+
+from typing import Any
+
 from dtintegrations import provider
 
 
 class Request(object):
 
-    def __init__(self, request, provider_name: str):
+    def __init__(self, request: Any, provider_name: str):
         # Set parameter attributes.
         self.request = request
-        self.provider: object = None
+        self.provider: Any = None
 
         # Select a provider class depending on provided name.
         if provider_name.lower() == provider.FLASK:
@@ -25,9 +29,11 @@ class Request(object):
             raise ValueError(f'Unsupported provider {provider_name}.')
 
     @property
-    def headers(self):
-        return self.provider.get_headers_dict(self.request)
+    def headers(self) -> dict:
+        headers: dict = self.provider.get_headers_dict(self.request)
+        return headers
 
     @property
-    def body_bytes(self):
-        return self.provider.get_body_bytes(self.request)
+    def body_bytes(self) -> bytes:
+        data: bytes = self.provider.get_body_bytes(self.request)
+        return data
