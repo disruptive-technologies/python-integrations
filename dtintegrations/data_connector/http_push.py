@@ -4,7 +4,6 @@ import hashlib
 from typing import Any
 
 import disruptive  # type: ignore
-from disruptive.events import Event  # type: ignore
 
 from dtintegrations import request as dtrequest
 
