@@ -16,6 +16,9 @@ class Request(object):
         if provider_name.lower() == provider.FLASK:
             self.provider = provider.Flask
 
+        elif provider_name.lower() == provider.DJANGO:
+            self.provider = provider.Django
+
         elif provider_name.lower() == provider.GCLOUD:
             self.provider = provider.Gcloud
 
@@ -26,7 +29,8 @@ class Request(object):
             self.provider = provider.Azure
 
         else:
-            raise ValueError(f'Unsupported provider {provider_name}.')
+            msg = f'Unsupported provider {provider_name}.'
+            raise ValueError(msg)
 
     @property
     def headers(self) -> dict:

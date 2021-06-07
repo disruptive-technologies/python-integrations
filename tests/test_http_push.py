@@ -56,6 +56,54 @@ class TestHttpPush():
                 secret='test-secret',
             )
 
+    # ------------------------- Django -------------------------
+    def test_decode_django(self, decode_mock):
+        # Choose an event to receive.
+        test_event = events.touch
+
+        # Update the mock event attribute.
+        decode_mock.event = test_event
+
+        # Attempt to decode the request.
+        event = data_connector.http_push.decode_request(
+            request=framework.DjangoRequestFormat(test_event),
+            provider=provider.DJANGO,
+            secret='test-secret',
+        )
+
+        assert isinstance(event, disruptive.events.Event)
+        assert event.event_id == test_event.body['event']['eventId']
+
+    def test_decode_django_name_casing(self, decode_mock):
+        # Choose an event to receive.
+        test_event = events.touch
+
+        # Update the mock event attribute.
+        decode_mock.event = test_event
+
+        # Attempt to decode the request.
+        data_connector.http_push.decode_request(
+            request=framework.DjangoRequestFormat(test_event),
+            provider='djANgO',
+            secret='test-secret',
+        )
+
+    def test_decode_django_bad_secret(self):
+        with pytest.raises(disruptive.errors.ConfigurationError):
+            data_connector.http_push.decode_request(
+                request=framework.DjangoRequestFormat(events.touch),
+                provider=provider.DJANGO,
+                secret='bad-secret',
+            )
+
+    def test_decode_django_bad_name(self):
+        with pytest.raises(ValueError):
+            data_connector.http_push.decode_request(
+                request=framework.DjangoRequestFormat(events.touch),
+                provider='Xdjango',
+                secret='test-secret',
+            )
+
     # ------------------------- Gcloud -------------------------
     def test_decode_gcloud(self, decode_mock):
         # Choose an event to receive.

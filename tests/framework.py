@@ -19,6 +19,18 @@ class FlaskRequestFormat():
         return header_list
 
 
+class DjangoRequestFormat():
+    """
+    Change event data to replicate Django request format.
+
+    """
+
+    def __init__(self, event: events.Event):
+
+        self.headers = event.headers
+        self.body = event.body_str.encode('utf-8')
+
+
 class GcloudRequestFormat():
     """
     Change event data to replicate Gcloud request format.
