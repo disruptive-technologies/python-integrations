@@ -107,6 +107,8 @@ def decode_request(request: Any, provider: str, secret: str) -> Any:
     -------
     event : Event
         An object representing the received event.
+    labels : dict
+        Labels from the source device forwarded by the Data Connector.
 
     """
 
