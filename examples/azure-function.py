@@ -9,7 +9,7 @@ DT_SIGNATURE_SECRET = os.getenv('DT_SIGNATURE_SECRET')
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     # Use the provider-specific validation function.
-    event = data_connector.http_push.decode_request(
+    event, labels = data_connector.http_push.decode_request(
         req,
         provider=provider.AZURE,
         secret=DT_SIGNATURE_SECRET,
