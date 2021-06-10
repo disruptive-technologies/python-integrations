@@ -17,7 +17,7 @@ class TestHttpPush():
         decode_mock.event = test_event
 
         # Attempt to decode the request.
-        event = data_connector.http_push.decode_request(
+        event, _ = data_connector.http_push.decode_request(
             request=framework.FlaskRequestFormat(test_event),
             provider=provider.FLASK,
             secret='test-secret',
@@ -65,7 +65,7 @@ class TestHttpPush():
         decode_mock.event = test_event
 
         # Attempt to decode the request.
-        event = data_connector.http_push.decode_request(
+        event, _ = data_connector.http_push.decode_request(
             request=framework.DjangoRequestFormat(test_event),
             provider=provider.DJANGO,
             secret='test-secret',
@@ -113,7 +113,7 @@ class TestHttpPush():
         decode_mock.event = test_event
 
         # Attempt to decode the request.
-        event = data_connector.http_push.decode_request(
+        event, _ = data_connector.http_push.decode_request(
             request=framework.GcloudRequestFormat(test_event),
             provider=provider.GCLOUD,
             secret='test-secret',
@@ -161,7 +161,7 @@ class TestHttpPush():
         decode_mock.event = test_event
 
         # Attempt to decode the request.
-        event = data_connector.http_push.decode_request(
+        event, _ = data_connector.http_push.decode_request(
             request=framework.lambda_request_format(test_event),
             provider=provider.LAMBDA,
             secret='test-secret',
@@ -209,7 +209,7 @@ class TestHttpPush():
         decode_mock.event = test_event
 
         # Attempt to decode the request.
-        event = data_connector.http_push.decode_request(
+        event, _ = data_connector.http_push.decode_request(
             request=framework.AzureRequestFormat(test_event),
             provider=provider.AZURE,
             secret='test-secret',

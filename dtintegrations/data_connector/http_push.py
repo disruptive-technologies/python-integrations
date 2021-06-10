@@ -27,6 +27,8 @@ def decode(headers: dict, body: bytes, secret: str) -> Any:
     -------
     event : Event
         An object representing the received event.
+    labels : dict
+        Labels from the source device forwarded by the Data Connector.
 
     """
 
@@ -83,7 +85,7 @@ def decode(headers: dict, body: bytes, secret: str) -> Any:
     body_dict = ast.literal_eval(body.decode('utf-8'))
 
     # Initialize and return an Event instance of the body.
-    return disruptive.events.Event(body_dict['event'])
+    return disruptive.events.Event(body_dict['event']), body_dict['labels']
 
 
 def decode_request(request: Any, provider: str, secret: str) -> Any:

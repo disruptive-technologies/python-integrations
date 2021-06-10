@@ -8,7 +8,7 @@ from dtintegrations import data_connector, provider
 @csrf_exempt
 def index(request):
     # Use the provider-specific validation function.
-    event = data_connector.http_push.decode_request(
+    event, labels = data_connector.http_push.decode_request(
         request,
         provider=provider.DJANGO,
         secret=os.getenv('DT_SIGNATURE_SECRET'),
