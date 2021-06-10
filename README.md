@@ -32,7 +32,7 @@ from dtintegrations import data_connector, provider
 
 def endpoint(request):
     # Use the provider-specific validation function.
-    event = data_connector.http_push.validate(
+    event, labels = data_connector.http_push.validate(
         request,
         provider=provider.GCLOUD,
         secret=os.getenv('DT_SIGNATURE_SECRET'),
