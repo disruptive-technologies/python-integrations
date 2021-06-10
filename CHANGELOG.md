@@ -6,6 +6,7 @@ After major version v1.0.0, the project adheres to [semantic versioning](https:/
 ### Added
 - [#6](https://github.com/disruptive-technologies/python-integrations/pull/6) Added stricter mypy rules, resulting in better type-hinting.
 - [#7](https://github.com/disruptive-technologies/python-integrations/pull/7) Added support for Django provider.
+- [#8](https://github.com/disruptive-technologies/python-integrations/pull/8) Http Push `decode_request()` functions now also returns labels.
 
 # v0.2.0
 _Released on 2021-06-04._  
