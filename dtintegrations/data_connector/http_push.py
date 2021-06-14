@@ -30,6 +30,12 @@ def decode(headers: dict, body: bytes, secret: str) -> Any:
     labels : dict
         Labels from the source device forwarded by the Data Connector.
 
+    Raises
+    ------
+    ConfigurationError
+        If any of the input parameters are of invalid type, or
+        the signature secret is expired.
+
     """
 
     # Do some mild secret sanitization, ensuring populated string.
