@@ -2,6 +2,10 @@
 All notable changes, fixes, and additions to the project is listed in this changelog.  
 After major version v1.0.0, the project adheres to [semantic versioning](https://semver.org/).
 
+# Unreleased
+### Changed
+- [#9](https://github.com/disruptive-technologies/python-integrations/pull/9) Replaced `decode()` EmptyStringError with ConfigurationError.
+
 # v0.3.0
 _Released on 2021-06-10._
 ### Added
