@@ -35,7 +35,7 @@ def decode(headers: dict, body: bytes, secret: str) -> Any:
     # Do some mild secret sanitization, ensuring populated string.
     if isinstance(secret, str):
         if len(secret) == 0:
-            raise disruptive.errors.EmptyStringError(
+            raise disruptive.errors.ConfigurationError(
                 'Secret is empty string.'
             )
     else:
