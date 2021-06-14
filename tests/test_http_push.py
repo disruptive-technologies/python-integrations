@@ -8,6 +8,57 @@ from tests import framework
 
 class TestHttpPush():
 
+    def test_decode_secret_empty_string(self):
+        with pytest.raises(disruptive.errors.ConfigurationError):
+            data_connector.http_push.decode(
+                headers={},
+                body=b'',
+                secret='',
+            )
+
+    def test_decode_secret_invalid_type(self):
+        with pytest.raises(TypeError):
+            data_connector.http_push.decode(
+                headers={},
+                body=b'',
+                secret=22,
+            )
+
+    def test_decode_missing_header_token(self):
+        with pytest.raises(disruptive.errors.ConfigurationError):
+            data_connector.http_push.decode(
+                headers={},
+                body=b'',
+                secret='test-secret',
+            )
+
+    def test_decode_expired_signature(self):
+        test_event = events.touch
+        with pytest.raises(disruptive.errors.ConfigurationError):
+            data_connector.http_push.decode(
+                headers=test_event.headers,
+                body=test_event.body_str.encode('utf-8'),
+                secret='test-secret',
+            )
+
+    def test_decode_checksum_mismatch(self, decode_mock):
+        # Choose an event to receive.
+        test_event = events.touch
+
+        # Update the mock event attribute.
+        decode_mock.event = test_event
+
+        # Corrupt the body string.
+        body_str = test_event.body_str + 'abc'
+
+        # Attempt to decode the request.
+        with pytest.raises(disruptive.errors.ConfigurationError):
+            event, _ = data_connector.http_push.decode(
+                headers=test_event.headers,
+                body=body_str.encode('utf-8'),
+                secret='test-secret',
+            )
+
     # ------------------------- Flask -------------------------
     def test_decode_flask(self, decode_mock):
         # Choose an event to receive.
