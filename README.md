@@ -22,7 +22,7 @@ pip install .
 - Python 3.7+
 
 ## Usage
-Currently, the main functionality of this package is for validating event requests forwarded by a [Data Connector](https://developer.disruptive-technologies.com/docs/data-connectors/introduction-to-data-connector).  
+Currently, the main functionality of this package is validating request contents forwarded by a [Data Connector](https://developer.disruptive-technologies.com/docs/data-connectors/introduction-to-data-connector).  
 
 The following example shows this for a [Google Cloud Function](https://cloud.google.com/functions).
 ```python
