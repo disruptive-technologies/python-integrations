@@ -6,6 +6,9 @@ After major version v1.0.0, the project adheres to [semantic versioning](https:/
 ### Changed
 - [#9](https://github.com/disruptive-technologies/python-integrations/pull/9) Replaced `decode()` EmptyStringError with ConfigurationError.
 
+### Added
+- [7c97f32](https://github.com/disruptive-technologies/python-integrations/commit/7c97f32b64a0b150cc2a45747afc274c5ddae786) Added support for 2nd generation temperature sensors.
+
 # v0.3.0
 _Released on 2021-06-10._
 ### Added
