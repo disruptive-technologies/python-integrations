@@ -5,10 +5,62 @@ from typing import Any
 
 import disruptive  # type: ignore
 
-from dtintegrations import request as dtrequest
+from dtintegrations import request as dtrequest, outputs
+from dtintegrations.data_connector import metadata as metadata
 
 
-def decode(headers: dict, body: bytes, secret: str) -> Any:
+class HttpPushPayload(outputs.OutputBase):
+    """
+    Represents the received payload from a HTTP Push Data Connector.
+
+    Attributes
+    ----------
+    event : Event
+        An object representing the received event.
+    labels : dict
+        Labels from the source device forwarded by the Data Connector.
+
+    """
+    def __init__(self, body):
+        """
+        Constructs the HtttpPushPayload object by resolving the dict entries.
+
+        Parameters
+        ----------
+        body_dict : dict
+            Dictionary form of the payload that is to be resolved.
+
+        Raises
+        ------
+        KeyError
+            If one- or more entries does not exist in the dictionary.
+
+        """
+
+        self._body_dict = body
+        self.event = disruptive.events.Event(body['event'])
+        self.labels = body['labels']
+        self._metadata_dict = body['metadata']
+
+    def get_device_metadata(self):
+        """
+        Fetch the source device metadata if it exists.
+
+        Returns
+        -------
+        metadata : DeviceMetadata, optional
+            An object representing the source device metadata.
+            If the event forwarded by the Data Connector does not originate
+            a device, DeviceMetadata returns None.
+        """
+
+        try:
+            return metadata.DeviceMetadata(self._metadata_dict)
+        except KeyError:
+            return None
+
+
+def decode(headers: dict, body: bytes, secret: str) -> HttpPushPayload:
     """
     Decodes the incoming event, first validating the source- and origin
     using a signature secret and the request header- and body.
@@ -25,10 +77,8 @@ def decode(headers: dict, body: bytes, secret: str) -> Any:
 
     Returns
     -------
-    event : Event
-        An object representing the received event.
-    labels : dict
-        Labels from the source device forwarded by the Data Connector.
+    payload : HttpPushPayload
+        An object representing the received Data Connector payload.
 
     Raises
     ------
@@ -91,13 +141,16 @@ def decode(headers: dict, body: bytes, secret: str) -> Any:
     body_dict = ast.literal_eval(body.decode('utf-8'))
 
     # Initialize and return an Event instance of the body.
-    return disruptive.events.Event(body_dict['event']), body_dict['labels']
+    http_push_payload = HttpPushPayload(body_dict)
+
+    return http_push_payload
 
 
 def decode_request(request: Any, provider: str, secret: str) -> Any:
     """
-    Decodes the incoming event, first validating the source- and origin
-    using a signature secret and the provider-specific request.
+    Decodes the incoming event using a specified provider, first validatingthe
+    the source- and origin using a signature secretand
+    and the provider-specific request.
 
     Parameters
     ----------
