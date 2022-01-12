@@ -9,14 +9,14 @@ app = Flask(__name__)
 @app.route('/', methods=['POST'])
 def print_request_contents():
     # Use the provider-specific validation function.
-    event, labels = data_connector.http_push.decode_request(
-        request,
+    payload = data_connector.HttpPush.from_provider(
+        request=request,
         provider=provider.FLASK,
         secret=os.getenv('DT_SIGNATURE_SECRET'),
     )
 
     # Print the event data.
-    print(event)
+    print(payload)
 
     # If all is well, return 200 response.
     return 'Success'

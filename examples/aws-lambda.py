@@ -8,14 +8,14 @@ DT_SIGNATURE_SECRET = os.getenv('DT_SIGNATURE_SECRET')
 
 def lambda_handler(event, context):
     # Use the provider-specific validation function.
-    e, _ = data_connector.http_push.decode_request(
-        event,
+    payload = data_connector.HttpPush.from_provider(
+        request=event,
         provider=provider.LAMBDA,
         secret=DT_SIGNATURE_SECRET,
     )
 
     # Print the event data.
-    print(e)
+    print(payload)
 
     # If all is well, return 200 response.
     return {
