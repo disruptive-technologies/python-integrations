@@ -26,20 +26,19 @@ Currently, the main functionality of this package is validating requests forward
 
 The following example shows this for a [Google Cloud Function](https://cloud.google.com/functions).
 ```python
-import os
 from dtintegrations import data_connector, provider
 
 
 def endpoint(request):
     # Use the provider-specific validation function.
-    event, labels = data_connector.http_push.decode_request(
-        request,
+    payload = data_connector.http_push.decode_request(
+        request=request,
         provider=provider.GCLOUD,
-        secret=os.getenv('DT_SIGNATURE_SECRET'),
+        secret='<DT_SIGNATURE_SECRET>',
     )
 
-    # Print the event data.
-    print(event)
+    # Print the payload data.
+    print(payload)
 
     # If all is well, return 200 response.
     return ('OK', 200)
