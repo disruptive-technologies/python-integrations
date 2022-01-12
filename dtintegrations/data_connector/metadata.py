@@ -17,7 +17,7 @@ class DeviceMetadata(outputs.OutputBase):
         Source device product number.
     """
 
-    def __init__(self, metadata):
+    def __init__(self, metadata: dict):
         self.device_id = metadata['deviceId']
         self.project_id = metadata['projectId']
         self.device_type = metadata['deviceType']

@@ -1,7 +1,7 @@
 import jwt
 import ast
 import hashlib
-from typing import Any
+from typing import Any, Optional
 
 import disruptive  # type: ignore
 
@@ -28,11 +28,13 @@ class HttpPush(outputs.OutputBase):
         """
 
         self._body_dict = self._decode(headers, body, secret)
+        super().__init__(self._body_dict)
+
         self.event = disruptive.events.Event(self._body_dict['event'])
         self.labels = self._body_dict['labels']
         self._metadata_dict = self._body_dict['metadata']
 
-    def get_device_metadata(self):
+    def get_device_metadata(self) -> Optional[metadata.DeviceMetadata]:
         """
         Fetch source device metadata if it exists.
 
@@ -49,7 +51,7 @@ class HttpPush(outputs.OutputBase):
         except KeyError:
             return None
 
-    def _decode(self, headers: dict, body: bytes, secret: str):
+    def _decode(self, headers: dict, body: bytes, secret: str) -> dict:
         """
         Decodes the incoming event, first validating the source- and origin
         using a signature secret and the request header- and body.
@@ -129,10 +131,10 @@ class HttpPush(outputs.OutputBase):
         # Convert the body bytes string into a dictionary.
         body_dict = ast.literal_eval(body.decode('utf-8'))
 
-        return body_dict
+        return dict(body_dict)
 
     @staticmethod
-    def from_provider(request: Any, provider: str, secret: str):
+    def from_provider(request: Any, provider: str, secret: str) -> Any:
         """
         Decodes the incoming event using a specified provider, first validating
         the the source- and origin using a signature secretand

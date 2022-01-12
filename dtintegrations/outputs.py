@@ -65,7 +65,7 @@ class OutputBase(object):
             elif isinstance(val, list):
                 out.append('{}{}: {} = {}'.format(
                     l1, a, type(val).__name__, '['))
-                self.__str__list(out, val, level+1, n_spaces, l2)
+                self.__str__list(out, val, level+1, l2)
                 out.append(l1 + '],')
 
             # Other types can be printed directly.
