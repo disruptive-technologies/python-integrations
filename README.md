@@ -30,11 +30,11 @@ from dtintegrations import data_connector, provider
 
 
 def endpoint(request):
-    # Use the provider-specific validation function.
-    payload = data_connector.http_push.decode_request(
+    # Validate and decode the incoming request.
+    payload = data_connector.HttpPush.from_provider(
         request=request,
         provider=provider.GCLOUD,
-        secret='<DT_SIGNATURE_SECRET>',
+        secret='<SIGNATURE_SECRET>',
     )
 
     # Print the payload data.

@@ -12,7 +12,7 @@ def endpoint(request):
         secret=DT_SIGNATURE_SECRET,
     )
 
-    # Print the event data.
+    # Print the payload data.
     print(payload)
 
     # If all is well, return 200 response.
