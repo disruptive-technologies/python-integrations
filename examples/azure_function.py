@@ -1,28 +1,25 @@
 import os
-import json
+import logging
 
+import azure.functions as func
 from dtintegrations import data_connector, provider
 
 DT_SIGNATURE_SECRET = os.getenv('DT_SIGNATURE_SECRET')
 
 
-def lambda_handler(event, context):
+def main(req: func.HttpRequest) -> func.HttpResponse:
     # Use the provider-specific validation function.
     payload = data_connector.HttpPush.from_provider(
-        request=event,
-        provider=provider.LAMBDA,
+        request=req,
+        provider=provider.AZURE,
         secret=DT_SIGNATURE_SECRET,
     )
 
-    # Print the event data.
-    print(payload)
+    # Log the payload data.
+    logging.info(payload)
 
     # If all is well, return 200 response.
-    return {
-        "statusCode": 200,
-        "body": json.dumps(
-            {
-                "message": "OK",
-            }
-        ),
-    }
+    return func.HttpResponse(
+        "ruccess",
+        status_code=200,
+    )
