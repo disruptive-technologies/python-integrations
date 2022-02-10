@@ -135,13 +135,11 @@ class HttpPush(outputs.OutputBase):
                 'Signature has expired.'
             )
 
-        # Calculate the body checksum.
-        m = hashlib.sha1()
+        # Calculate and compare the body SHA-256 checksum.
+        m = hashlib.sha256()
         m.update(body)
-        checksum = m.digest().hex()
-
-        # Compare body checksum with the one in payload.
-        if payload['checksum'] != checksum:
+        checksum_sha256 = m.digest().hex()
+        if payload['checksum_sha256'] != checksum_sha256:
             raise disruptive.errors.ConfigurationError(
                 'Checksum mismatch.'
             )
