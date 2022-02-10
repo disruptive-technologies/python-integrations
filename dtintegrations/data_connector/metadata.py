@@ -18,7 +18,18 @@ class DeviceMetadata(outputs.OutputBase):
     """
 
     def __init__(self, metadata: dict):
+        self._metadata = metadata
         self.device_id = metadata['deviceId']
         self.project_id = metadata['projectId']
         self.device_type = metadata['deviceType']
         self.product_number = metadata['productNumber']
+
+    def __repr__(self) -> str:
+        string = '{}.{}('\
+            'metadata={},'\
+            ')'
+        return string.format(
+            self.__class__.__module__,
+            self.__class__.__name__,
+            self._metadata,
+        )
