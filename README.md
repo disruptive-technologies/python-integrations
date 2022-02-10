@@ -24,7 +24,7 @@ pip install .
 
 ### Requirements
 
-- Python 3.7+
+- Python 3.7, 3.8, 3.9, 3.10
 
 ## Usage
 Currently, the main functionality of this package is validating requests forwarded by a [Data Connector](https://developer.disruptive-technologies.com/docs/data-connectors/introduction-to-data-connector).  
