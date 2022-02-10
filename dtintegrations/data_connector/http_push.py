@@ -27,12 +27,30 @@ class HttpPush(outputs.OutputBase):
 
         """
 
+        self._headers = headers
+        self._body = body
+        self._secret = secret
+
         self._body_dict = self._decode(headers, body, secret)
         super().__init__(self._body_dict)
 
         self.event = disruptive.events.Event(self._body_dict['event'])
         self.labels = self._body_dict['labels']
         self._metadata_dict = self._body_dict['metadata']
+
+    def __repr__(self) -> str:
+        string = '{}.{}('\
+            'headers={},'\
+            'body={},'\
+            'secret={},'\
+            ')'
+        return string.format(
+            self.__class__.__module__,
+            self.__class__.__name__,
+            self._headers,
+            self._body,
+            repr(self._secret),
+        )
 
     def get_device_metadata(self) -> Optional[metadata.DeviceMetadata]:
         """
