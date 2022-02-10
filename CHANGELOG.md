@@ -2,9 +2,12 @@
 All notable changes, fixes, and additions to the project is listed in this changelog.  
 After major version v1.0.0, the project adheres to [semantic versioning](https://semver.org/).
 
-# Unreleased
+# v0.5.1
 ### Changed
 - [#13](https://github.com/disruptive-technologies/python-integrations/pull/13) SHA-1 checksum replaced with SHA-256.
+
+### Added
+- [#14](https://github.com/disruptive-technologies/python-integrations/pull/14) Added build and test for Python 3.10.
 
 # v0.5.0
 ### Changed
