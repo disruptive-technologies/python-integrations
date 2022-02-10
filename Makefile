@@ -18,7 +18,7 @@ build: venv
 	${VENV}/bin/python setup.py sdist bdist_wheel
 
 test: venv
-	source ${VENV}/bin/activate && pytest tests/
+	source ${VENV}/bin/activate && pytest -rP tests/
 
 coverage: venv
 	source ${VENV}/bin/activate && pytest --cov=dtintegrations tests/
