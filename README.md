@@ -3,6 +3,11 @@
 ![build](https://github.com/disruptive-technologies/python-integrations/actions/workflows/build.yml/badge.svg)
 [![codecov](https://codecov.io/gh/disruptive-technologies/python-integrations/branch/main/graph/badge.svg?token=KX0W7H6ALS)](https://codecov.io/gh/disruptive-technologies/python-integrations)
 
+## Documentation
+
+- [Python API Reference](https://developer.disruptive-technologies.com/api/libraries/python/)
+- [Developer Documentation](https://developer.disruptive-technologies.com/docs/)
+
 ## Installation
 
 The package can be installed through pip:
