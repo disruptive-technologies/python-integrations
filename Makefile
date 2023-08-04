@@ -18,7 +18,7 @@ build: venv
 	${VENV}/bin/python setup.py sdist bdist_wheel
 
 test: venv
-	source ${VENV}/bin/activate && pytest -rP tests/
+	source ${VENV}/bin/activate && pytest tests/
 
 coverage: venv
 	source ${VENV}/bin/activate && pytest --cov=dtintegrations tests/
@@ -27,8 +27,4 @@ lint: venv
 	source ${VENV}/bin/activate && mypy dtintegrations/ && flake8 dtintegrations/
 
 clean:
-	rm -rf build/ dist/ pip-wheel-metadata/ *.egg-info
-	find . -name '__pycache__' -exec rm --force --recursive {} +
-	rm -rf .pytest_cache/ .mypy_cache/
-	rm -rf $(VENV)
-	rm -f coverage.xml
+	rm -rf build/ dist/ pip-wheel-metadata/ *.egg-info .pytest_cache/ .mypy_cache/ $(VENV) coverage.xml
