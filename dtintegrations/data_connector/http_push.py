@@ -1,5 +1,5 @@
 import jwt
-import ast
+import json
 import hashlib
 from typing import Any, Optional
 
@@ -145,7 +145,7 @@ class HttpPush(outputs.OutputBase):
             )
 
         # Convert the body bytes string into a dictionary.
-        body_dict = ast.literal_eval(body.decode('utf-8'))
+        body_dict = json.loads(body.decode('utf-8'))
 
         return dict(body_dict)
 
