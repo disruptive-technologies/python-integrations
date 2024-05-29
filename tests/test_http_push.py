@@ -77,6 +77,23 @@ class TestHttpPush():
         assert isinstance(payload.event, disruptive.events.Event)
         assert payload.event.event_id == test_event.body['event']['eventId']
 
+    def test_decode_temperature(self, decode_mock):
+        # Choose an event to receive.
+        test_event = events.temperature
+
+        # Update the mock event attribute.
+        decode_mock.event = test_event
+
+        # Attempt to decode the request.
+        payload = data_connector.HttpPush.from_provider(
+            request=framework.FlaskRequestFormat(test_event),
+            provider=provider.FLASK,
+            secret='test-secret',
+        )
+
+        assert isinstance(payload.event, disruptive.events.Event)
+        assert payload.event.event_id == test_event.body['event']['eventId']
+
     def test_decode_flask_name_casing(self, decode_mock):
         # Choose an event to receive.
         test_event = events.touch
@@ -111,6 +128,23 @@ class TestHttpPush():
     def test_decode_django(self, decode_mock):
         # Choose an event to receive.
         test_event = events.touch
+
+        # Update the mock event attribute.
+        decode_mock.event = test_event
+
+        # Attempt to decode the request.
+        payload = data_connector.HttpPush.from_provider(
+            request=framework.DjangoRequestFormat(test_event),
+            provider=provider.DJANGO,
+            secret='test-secret',
+        )
+
+        assert isinstance(payload.event, disruptive.events.Event)
+        assert payload.event.event_id == test_event.body['event']['eventId']
+    
+    def test_decode_temperature(self, decode_mock):
+        # Choose an event to receive.
+        test_event = events.temperature
 
         # Update the mock event attribute.
         decode_mock.event = test_event
@@ -159,6 +193,23 @@ class TestHttpPush():
     def test_decode_gcloud(self, decode_mock):
         # Choose an event to receive.
         test_event = events.touch
+
+        # Update the mock event attribute.
+        decode_mock.event = test_event
+
+        # Attempt to decode the request.
+        payload = data_connector.HttpPush.from_provider(
+            request=framework.GcloudRequestFormat(test_event),
+            provider=provider.GCLOUD,
+            secret='test-secret',
+        )
+
+        assert isinstance(payload.event, disruptive.events.Event)
+        assert payload.event.event_id == test_event.body['event']['eventId']
+    
+    def test_decode_temperature(self, decode_mock):
+        # Choose an event to receive.
+        test_event = events.temperature
 
         # Update the mock event attribute.
         decode_mock.event = test_event
@@ -221,6 +272,23 @@ class TestHttpPush():
         assert isinstance(payload.event, disruptive.events.Event)
         assert payload.event.event_id == test_event.body['event']['eventId']
 
+    def test_decode_temperature(self, decode_mock):
+        # Choose an event to receive.
+        test_event = events.temperature
+
+        # Update the mock event attribute.
+        decode_mock.event = test_event
+
+        # Attempt to decode the request.
+        payload = data_connector.HttpPush.from_provider(
+            request=framework.lambda_request_format(test_event),
+            provider=provider.LAMBDA,
+            secret='test-secret',
+        )
+
+        assert isinstance(payload.event, disruptive.events.Event)
+        assert payload.event.event_id == test_event.body['event']['eventId']
+
     def test_decode_lambda_name_casing(self, decode_mock):
         # Choose an event to receive.
         test_event = events.touch
@@ -255,6 +323,23 @@ class TestHttpPush():
     def test_decode_azure(self, decode_mock):
         # Choose an event to receive.
         test_event = events.touch
+
+        # Update the mock event attribute.
+        decode_mock.event = test_event
+
+        # Attempt to decode the request.
+        payload = data_connector.HttpPush.from_provider(
+            request=framework.AzureRequestFormat(test_event),
+            provider=provider.AZURE,
+            secret='test-secret',
+        )
+
+        assert isinstance(payload.event, disruptive.events.Event)
+        assert payload.event.event_id == test_event.body['event']['eventId']
+    
+    def test_decode_temperature(self, decode_mock):
+        # Choose an event to receive.
+        test_event = events.temperature
 
         # Update the mock event attribute.
         decode_mock.event = test_event
