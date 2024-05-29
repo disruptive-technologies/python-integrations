@@ -2,6 +2,10 @@
 All notable changes, fixes, and additions to the project is listed in this changelog.  
 After major version v1.0.0, the project adheres to [semantic versioning](https://semver.org/).
 
+# V0.6.1
+### Fixed
+- [#16](https://github.com/disruptive-technologies/python-integrations/pull/16) Better JSON unmarshal.
+
 # V0.6.0
 ### Changed
 - [#15](https://github.com/disruptive-technologies/python-integrations/pull/15) Deprecated Python 3.7 as it is end-of-life.
